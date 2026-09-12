@@ -69,6 +69,13 @@ tarvos build app.py --output app
 tarvos package ./my-python-project --entry main.py --output-dir ./dist
 ```
 
+## Performance and compatibility
+
+See [BENCHMARKS.md](BENCHMARKS.md) for the documented benchmark methodology
+and how to interpret release results. Tarvos supports a statically analyzable
+Python subset; use `tarvos doctor` before building and treat unsupported
+features as explicit compatibility gaps rather than silently falling back.
+
 ## Updates and uninstall
 
 Run the installer again with the desired `TARVOS_VERSION` to update. To
