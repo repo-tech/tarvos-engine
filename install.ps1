@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [string]$Version = "v1.5.0",
-    [string]$Repository = "repo-tech/tarvos",
+    [string]$Repository = "repo-tech/tarvos-engine",
     [string]$Token = $env:TARVOS_GITHUB_TOKEN,
     [switch]$Force
 )

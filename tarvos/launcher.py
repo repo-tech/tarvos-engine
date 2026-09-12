@@ -12,7 +12,7 @@ from pathlib import Path
 
 
 VERSION = os.environ.get("TARVOS_VERSION", "v1.5.0")
-REPOSITORY = os.environ.get("TARVOS_REPOSITORY", "repo-tech/tarvos")
+REPOSITORY = os.environ.get("TARVOS_REPOSITORY", "repo-tech/tarvos-engine")
 TOKEN = os.environ.get("TARVOS_GITHUB_TOKEN")
 
 
