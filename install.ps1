@@ -25,7 +25,15 @@ $releaseEndpoint = if ($Version -eq "latest") {
 } else {
     "https://api.github.com/repos/$Repository/releases/tags/$Version"
 }
-$release = Invoke-RestMethod -Uri $releaseEndpoint -Headers $headers
+try {
+    $release = Invoke-RestMethod -Uri $releaseEndpoint -Headers $headers
+} catch {
+    $statusCode = $_.Exception.Response.StatusCode.value__
+    if ($statusCode -eq 404) {
+        throw "Tarvos release $Version is not published at https://github.com/$Repository/releases. The public distribution repository has no v1.5.0 release yet. Publish v1.5.0 from the private build pipeline, then run this installer again."
+    }
+    throw
+}
 $releaseAsset = @($release.assets | Where-Object { $_.name -eq $asset }) | Select-Object -First 1
 $checksumAsset = @($release.assets | Where-Object { $_.name -eq "$asset.sha256" }) | Select-Object -First 1
 if ($null -eq $releaseAsset -or $null -eq $checksumAsset) {

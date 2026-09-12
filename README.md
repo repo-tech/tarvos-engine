@@ -14,10 +14,13 @@ here.
 
 ### Windows graphical setup
 
-Download or clone this repository, right-click `install-gui.ps1`, and choose
-**Run with PowerShell**. The small setup window downloads Tarvos, verifies its
-SHA-256 checksum, installs it under `%USERPROFILE%\.tarvos\bin`, and updates
-only the current user's `PATH`. No administrator prompt is required.
+Download `Tarvos-Setup-Windows-x86_64.exe` from the latest Release and launch
+it like a normal Python, Node.js, or VS Code setup. It uses Tarvos blue
+branding, installs under the current user's profile, registers the current
+user's `PATH`, and does not require administrator rights.
+
+The PowerShell scripts remain available for automated and developer installs,
+but end users should use the downloadable setup executable.
 
 From PowerShell:
 
@@ -25,6 +28,10 @@ From PowerShell:
 Set-ExecutionPolicy -Scope Process Bypass
 .\install-gui.ps1
 ```
+
+The setup requires a published `v1.5.0` release in this repository. If the
+release is not present yet, the installer reports that clearly instead of
+showing an opaque GitHub 404.
 
 For automation without the GUI:
 
@@ -74,6 +81,8 @@ Release automation runs from the private `repo-tech/tarvos` repository. Each
 public release must publish these assets in this repository:
 
 ```text
+Tarvos-Setup-Windows-x86_64.exe
+Tarvos-Setup-Windows-x86_64.exe.sha256
 tarvos-windows-x86_64.exe
 tarvos-windows-x86_64.exe.sha256
 tarvos-linux-x86_64

@@ -61,6 +61,7 @@ $button.Add_Click({
         $button.Content = "Done"
     } catch {
         $status.Text = "Installation failed: $($_.Exception.Message)"
+        $status.ToolTip = "The v1.5.0 release must be published to repo-tech/tarvos-engine before installation."
         $button.IsEnabled = $true
     } finally {
         $progress.Visibility = "Collapsed"
