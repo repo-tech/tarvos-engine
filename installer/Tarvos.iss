@@ -1,5 +1,5 @@
 #define MyAppName "Tarvos"
-#define MyAppVersion "1.5.0"
+#define MyAppVersion "1.0.0"
 #define MyAppPublisher "Repo-Tech"
 #define MyAppExeName "tarvos.exe"
 

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repository="${TARVOS_REPOSITORY:-repo-tech/tarvos-engine}"
-version="${TARVOS_VERSION:-v1.5.0}"
+version="${TARVOS_VERSION:-v1.0.0}"
 asset="tarvos-linux-x86_64"
 bin_dir="${HOME}/.tarvos/bin"
 destination="${bin_dir}/tarvos"

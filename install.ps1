@@ -30,14 +30,14 @@ try {
 } catch {
     $statusCode = $_.Exception.Response.StatusCode.value__
     if ($statusCode -eq 404) {
-        throw "Tarvos release $Version is not published at https://github.com/$Repository/releases. The public distribution repository has no v1.5.0 release yet. Publish v1.5.0 from the private build pipeline, then run this installer again."
+        throw "Tarvos release $Version is not published at https://github.com/$Repository/releases. The public distribution repository has no v1.0.0 release yet. Publish v1.0.0 from the private build pipeline, then run this installer again."
     }
     throw
 }
 $releaseAsset = @($release.assets | Where-Object { $_.name -eq $asset }) | Select-Object -First 1
 $checksumAsset = @($release.assets | Where-Object { $_.name -eq "$asset.sha256" }) | Select-Object -First 1
 if ($null -eq $releaseAsset -or $null -eq $checksumAsset) {
-    throw "Release $($release.tag_name) is missing $asset or $asset.sha256. Publish the v1.5.0 assets from .github/workflows/release.yml."
+    throw "Release $($release.tag_name) is missing $asset or $asset.sha256. Publish the v1.0.0 assets from .github/workflows/release.yml."
 }
 
 New-Item -ItemType Directory -Path $binDir -Force | Out-Null
