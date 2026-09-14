@@ -1,14 +1,15 @@
-# Tarvos
+# Tarvos Engine
 
-Tarvos is a Python-to-native compiler and CLI for statically analyzable,
-compute-heavy Python workloads. It generates optimized standalone binaries
-with a zero-administrator installation experience.
+Tarvos Engine is the public distribution layer for Tarvos 1.0.0, a
+Python-to-native Rust compiler and CLI for statically analyzable, compute-heavy
+Python workloads. It generates optimized standalone binaries with a
+zero-administrator installation experience.
 
 This is the **public distribution repository**. It contains installers,
 documentation, the Python launcher, checksums, and downloadable releases.
-The compiler implementation and private development workflow are maintained in
-the private `repo-tech/tarvos` repository and are intentionally not published
-here.
+The compiler implementation and development workflow live in
+`repo-tech/tarvos`; this repository owns the public installers, release
+metadata, checksums, and user-facing distribution experience.
 
 ## Install Tarvos
 
@@ -29,7 +30,7 @@ Set-ExecutionPolicy -Scope Process Bypass
 .\install-gui.ps1
 ```
 
-The setup requires a published `v1.5.0` release in this repository. If the
+The setup requires a published `v1.0.0` release in this repository. If the
 release is not present yet, the installer reports that clearly instead of
 showing an opaque GitHub 404.
 
@@ -78,14 +79,15 @@ features as explicit compatibility gaps rather than silently falling back.
 
 ## Updates and uninstall
 
-Run the installer again with the desired `TARVOS_VERSION` to update. To
+Run the installer again with the desired `TARVOS_VERSION` (default `v1.0.0`) to update. To
 uninstall, remove `~/.tarvos/bin` (or `%USERPROFILE%\.tarvos\bin`) and remove
 that directory from the current user's `PATH`.
 
 ## Release contract
 
-Release automation runs from the private `repo-tech/tarvos` repository. Each
-public release must publish these assets in this repository:
+Tarvos 1.0.0 is the initial stable product release. Release automation runs
+from `repo-tech/tarvos`, and each public release must publish these assets in
+this repository:
 
 ```text
 Tarvos-Setup-Windows-x86_64.exe
