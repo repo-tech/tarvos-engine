@@ -1,6 +1,6 @@
 # Tarvos Engine
 
-Tarvos Engine is the public distribution layer for Tarvos 1.0.0, a
+Tarvos Engine is the public distribution layer for Tarvos 1.1.0-rc.2, a
 Python-to-native Rust compiler and CLI for statically analyzable, compute-heavy
 Python workloads. It generates optimized standalone binaries with a
 zero-administrator installation experience.
@@ -30,7 +30,7 @@ Set-ExecutionPolicy -Scope Process Bypass
 .\install-gui.ps1
 ```
 
-The setup requires a published `v1.0.0` release in this repository. If the
+The setup requires a published `v1.1.0-rc.2` release in this repository. If the
 release is not present yet, the installer reports that clearly instead of
 showing an opaque GitHub 404.
 
@@ -76,17 +76,22 @@ See [BENCHMARKS.md](BENCHMARKS.md) for the documented benchmark methodology
 and how to interpret release results. Tarvos supports a statically analyzable
 Python subset; use `tarvos doctor` before building and treat unsupported
 features as explicit compatibility gaps rather than silently falling back.
+The current native standard-library surface includes `math`, `time`, and
+`os.path` (`join`, `basename`, `dirname`, `exists`, `isfile`, and `isdir`).
+The engine distribution follows the compiler capabilities published from
+`repo-tech/tarvos`; it does not maintain a separate implementation.
 
 ## Updates and uninstall
 
-Run the installer again with the desired `TARVOS_VERSION` (default `v1.0.0`) to update. To
+Run the installer again with the desired `TARVOS_VERSION` (default `v1.1.0-rc.2`) to update. To
 uninstall, remove `~/.tarvos/bin` (or `%USERPROFILE%\.tarvos\bin`) and remove
 that directory from the current user's `PATH`.
 
 ## Release contract
 
-Tarvos 1.0.0 is the initial stable product release. Release automation runs
-from `repo-tech/tarvos`, and each public release must publish these assets in
+Tarvos 1.1.0-rc.2 is the native compatibility hardening release candidate.
+Release automation runs from `repo-tech/tarvos`, and each public release must
+publish these assets in
 this repository:
 
 ```text
