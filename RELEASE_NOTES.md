@@ -13,9 +13,6 @@ Tarvos compiler's native compatibility hardening milestone.
 - This release does not claim full CPython, NumPy, Pandas, TensorFlow, or
   PyTorch native conversion.
 
-The canonical compiler implementation and release build remain in
-[`repo-tech/tarvos`](https://github.com/repo-tech/tarvos).
-
 Tarvos Engine 1.0.0 remains the previous stable public distribution for Tarvos.
 
 This repository provides the user-facing release layer:
@@ -26,9 +23,7 @@ This repository provides the user-facing release layer:
 - Release checksums and downloadable binary contracts.
 - Product documentation and benchmark guidance.
 
-The compiler implementation is maintained in
-[`repo-tech/tarvos`](https://github.com/repo-tech/tarvos). The previous stable
-tag is `v1.0.0`; this distribution tracks the `v1.1.0-rc.2` candidate.
+The previous stable tag is `v1.0.0`; this distribution tracks the `v1.1.0-rc.2` candidate.
 
 Tarvos targets a statically analyzable Python subset and reports unsupported
 dynamic features explicitly rather than promising full CPython compatibility.
