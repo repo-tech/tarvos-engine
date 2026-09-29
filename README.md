@@ -7,8 +7,7 @@ zero-administrator installation experience.
 
 This is the **public distribution repository**. It contains installers,
 documentation, the Python launcher, checksums, and downloadable releases.
-The compiler implementation and development workflow live in
-`repo-tech/tarvos`; this repository owns the public installers, release
+this repository owns the public installers, release
 metadata, checksums, and user-facing distribution experience.
 
 ## Install Tarvos
