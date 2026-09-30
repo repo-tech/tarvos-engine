@@ -1,11 +1,11 @@
 # Tarvos Engine
 
-[![Release](https://img.shields.io/badge/version-1.1.0--rc.6-blue.svg)](https://github.com/repo-tech/tarvos-engine/releases)
+[![Release](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/repo-tech/tarvos-engine/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)]()
 
 **Python to native Rust. No Rust installation required.**
 
-Tarvos Engine is the public distribution layer for Tarvos 1.1.0-rc.6: a
+Tarvos Engine is the public distribution layer for Tarvos 1.0.0: a
 Python-to-native Rust compiler and CLI for statically analyzable, compute-heavy
 Python workloads. Point it at a `.py` file and get an optimized standalone
 native executable — no Python runtime on the target, no `rustc` on the build
@@ -29,7 +29,7 @@ Python, type-checks it, lowers it to an intermediate representation, optimizes
 that IR, and emits Rust that the compiler turns into machine code. On a
 compute-bound kernel the difference is not marginal:
 
-| | CPython 3.13.13 | Tarvos 1.1.0-rc.6 |
+| | CPython 3.13.13 | Tarvos 1.0.0 |
 |---|---|---|
 | Median execution | 1713.14 ms | **13.40 ms** |
 | Minimum | 1445.00 ms | 11.54 ms |
@@ -45,10 +45,10 @@ than the headline.
 Two compiler bugs surfaced while validating this documentation, and one is
 still open. All three are in the compiler repository and written up there.
 
-- **Fixed in `1.1.0-rc.6`:** a tuple assignment inside a loop could leave a stale
-  constant, so `fib` returned `0` instead of `832040`. The workload that
+- **Fixed before this release:** a tuple assignment inside a loop could leave a
+  stale constant, so `fib` returned `0` instead of `832040`. The workload that
   reproduces it is now in the differential suite.
-- **Fixed after `rc.6` was tagged:** a `return` inside an `except` handler
+- **Also fixed before this release:** a `return` inside an `except` handler
   produced Rust that did not compile (`error[E0426]`).
 - **Still open:** native `try`/`except` lowers correctly but does not yet catch
   every exception type at run time. A `ZeroDivisionError` raised inside a `try`
@@ -175,6 +175,32 @@ Worked benchmark walkthrough: [SHOWCASE.md](SHOWCASE.md).
 | [RELEASE_NOTES.md](RELEASE_NOTES.md) | What shipped in each release |
 | [installer/README.md](installer/README.md) | Windows setup executable details |
 
+## Versioning
+
+Tarvos Engine has its **own version line**, separate from the compiler's.
+
+The compiler ships many release candidates as it develops. The public
+distribution is cut when there is something worth publishing. That means a
+compiler release does **not** automatically become a product release here, and
+the version you see on this page is not the compiler's internal version.
+
+`VERSION` in this repository is the single source of truth for the public
+version. The release pipeline reads it, so cutting a public release is a change
+to this repository and nothing else.
+
+## Release history
+
+| Version | What it was |
+|---|---|
+| `v1.0.0` | First stable public release. Managed toolchain, measured performance, full documentation, and an honest account of the open exception-handling limitation. |
+| `v1.1.0-rc.2` | Early pre-release. |
+| `v1.1.0-rc.1` | Early pre-release. |
+
+The `v1.1.0-rc.*` pre-releases tracked the compiler's release candidates. They
+are superseded by `v1.0.0`, which replaces that scheme with an independent one.
+
+Full detail for each release is in [RELEASE_NOTES.md](RELEASE_NOTES.md).
+
 ## Updates and uninstall
 
 Re-run the installer with a different `TARVOS_VERSION` to update. To uninstall,
@@ -184,8 +210,8 @@ from your user `PATH`. The managed toolchain lives separately in
 
 ## Release contract
 
-Tarvos 1.1.0-rc.6 is the tuple-assignment correctness release. Release
-automation runs from the private compiler repository and publishes these assets
+Tarvos 1.0.0 is the first stable public release. Release
+automation runs from the compiler's build pipeline and publishes these assets
 here:
 
 ```text

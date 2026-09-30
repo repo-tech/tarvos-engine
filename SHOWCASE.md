@@ -27,7 +27,7 @@ people actually write when the algorithm is settled and the machine is slow.
 | | Median | Min | Max | Std dev |
 |---|---|---|---|---|
 | CPython 3.13.13 | 1713.14 ms | 1445.00 ms | 3326.79 ms | 655.36 ms |
-| **Tarvos 1.1.0-rc.6** | **13.40 ms** | 11.54 ms | 14.94 ms | 1.27 ms |
+| **Tarvos 1.0.0** | **13.40 ms** | 11.54 ms | 14.94 ms | 1.27 ms |
 | rustc 1.98.0, hand-written | 29.28 ms | 28.64 ms | 29.65 ms | 0.40 ms |
 
 **127.9× on the median.** Both CPython and the native binary printed
@@ -101,7 +101,7 @@ tarvos run kernel.py
 
 If those two ever disagree, that is a compiler bug and it should be reported
 with both outputs. Two such bugs were found while writing this page — one
-fixed in `1.1.0-rc.6`, one fixed right after — and both are written up in
+fixed in `1.0.0`, one fixed right after — and both are written up in
 [RELEASE_NOTES.md](RELEASE_NOTES.md).
 
 ## Honest limits

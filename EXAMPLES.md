@@ -70,8 +70,8 @@ print(swap(3, 7))
 Verified: `73` — CPython agrees.
 
 Tuple assignment is a good early smoke test. It is also the construct that had
-a correctness bug in `1.1.0-rc.5`; `1.1.0-rc.6` fixes it and the shape is now
-covered by the differential suite.
+a correctness bug in an earlier build; the shape is now covered by the
+differential suite.
 
 ## 4. Functions and recursion
 

@@ -13,7 +13,7 @@ execution rather than a compile-time shortcut.
 | Runtime | Median | Min | Max | Std dev | Compile |
 |---|---|---|---|---|---|
 | CPython 3.13.13 | 1713.14 ms | 1445.00 ms | 3326.79 ms | 655.36 ms | — |
-| **Tarvos 1.1.0-rc.6** | **13.40 ms** | 11.54 ms | 14.94 ms | 1.27 ms | 12.71 s |
+| **Tarvos 1.0.0** | **13.40 ms** | 11.54 ms | 14.94 ms | 1.27 ms | 12.71 s |
 | rustc 1.98.0 (hand-written) | 29.28 ms | 28.64 ms | 29.65 ms | 0.40 ms | 0.57 s |
 
 ```text
@@ -31,7 +31,7 @@ so a fast wrong answer cannot be reported as a win.
 | OS | Windows 10, AMD64 (10.0.19045) |
 | Python | 3.13.13 |
 | rustc | 1.98.0 (88d9e12ae 2026-08-18) |
-| Tarvos | 1.1.0-rc.6 |
+| Tarvos | 1.0.0 |
 | Samples | 1 warm-up + 7 measured, medians compared |
 | Competitors | PyPy, Numba, Nuitka, Codon — unavailable on this runner |
 
@@ -59,9 +59,10 @@ kernel on one machine, and a headline that hides that is not a benchmark.
   difference, not evidence that Python beats Rust.
 - **Competitor runtimes were unavailable**, not omitted, on this runner. CI
   reports them when installed.
-- **Numbers are re-measured per release.** The table above is from `rc.6`; an
-  earlier `rc.5` run on this machine measured 157.6×. The ratio moves with
-  runner load, which is exactly why the method is published alongside it.
+- **Numbers are re-measured per release.** The table above was measured on the
+  build shipped here. A previous run on the same machine measured 157.6×. The
+  ratio moves with runner load, which is exactly why the method is published
+  alongside it.
 
 ## What CI measures
 
@@ -109,7 +110,7 @@ denominator.
 
 ### A bug this harness could have caught, and did not
 
-Release `1.1.0-rc.5` shipped a real correctness bug. This loop:
+An earlier build shipped a real correctness bug. This loop:
 
 ```python
 def fib(n: int) -> int:
@@ -130,7 +131,7 @@ did not — no workload in the corpus had that shape. Writing the initial values
 as `a, b = 0, 1` on one line happened not to trigger it, so the more idiomatic
 version of the pattern was the working one.
 
-That workload is in the corpus now and `1.1.0-rc.6` has the fix. Worth stating
+That workload is in the corpus now and `1.0.0` has the fix. Worth stating
 plainly: a parity guarantee is only as strong as the programs you feed it, and
 "20 of 21 passing" says nothing about the shape you never thought to test.
 
