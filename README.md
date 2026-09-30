@@ -18,8 +18,8 @@ tarvos build kernel.py -o kernel
 
 This is the **public distribution repository**: installers, documentation, the
 Python launcher, checksums, and downloadable releases. The compiler
-implementation is developed privately in `repo-tech/tarvos`; this repository
-owns everything a user touches.
+implementation is developed privately; this repository owns everything a user
+touches.
 
 ## Why Tarvos
 
