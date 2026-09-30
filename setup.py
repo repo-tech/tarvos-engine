@@ -7,7 +7,7 @@ ROOT = Path(__file__).parent
 
 setup(
     name="tarvos",
-    version="1.1.0rc2",
+    version="1.1.0rc5",
     description="Tarvos Python wrapper for the native Python-to-Rust compiler",
     long_description=(ROOT / "README.md").read_text(encoding="utf-8"),
     long_description_content_type="text/markdown",
