@@ -49,7 +49,7 @@ native binary and compares its stdout against CPython. At this release:
 
 | Gate | Result |
 |---|---|
-| Differential parity | 20 passed, 0 failed, 1 skipped |
+| Differential parity | 21 passed, 0 failed, 1 skipped |
 | Workspace test suite | 0 failures |
 | Capability matrix | 95 features: 52 supported, 18 partial, 24 unsupported, 1 planned |
 | Formatting and version gates | pass |
@@ -79,11 +79,11 @@ you invest in a migration.
 Every asset ships with a `.sha256` that the installers verify before writing
 anything to disk.
 
-## Two compiler bugs found while validating this release
+## Three compiler bugs found while validating this release
 
-Both were found by running the documentation examples and comparing against
-CPython, and both are written up in the compiler repository. They are recorded
-here because they shaped this release.
+All three were found by running the documentation examples and comparing their
+output against CPython. They are recorded here because they are the reason to
+trust the rest of this document.
 
 - **A tuple assignment inside a loop returned a stale constant.** This loop:
 
@@ -111,31 +111,51 @@ here because they shaped this release.
   against that block after it had closed, producing
   `error[E0426]: use of undeclared label`. Fixed.
 
+- **A zero divisor aborted the process instead of raising a catchable error.**
+  `a // b` with `b == 0` lowered to `.checked_div(..).expect("ZeroDivisionError")`,
+  which kills the native process, so an enclosing `except ZeroDivisionError`
+  was unreachable and a program written to recover died instead.
+
+  Float `/` was worse than a crash. It emitted a bare `a / b`, so a zero divisor
+  produced `inf` and the program carried on with a silently wrong number. Float
+  `//` had no zero check at all and did the same.
+
+  Division now goes through checking helpers that report failure as a
+  `Result`, and inside a `try` the failure reaches the handler the same way a
+  call to a fallible function does. A zero divisor now matches CPython for
+  `//`, `/` on integers, `/` on floats, and `//` on floats.
+
+  ```python
+  def safe_div(a: int, b: int) -> int:
+      try:
+          return a // b
+      except ZeroDivisionError:
+          return -1
+
+  print(safe_div(10, 2))   # 5
+  print(safe_div(1, 0))    # -1
+  ```
+
 A parity guarantee is only as strong as the programs fed through it. "20 of 21
 passing" says nothing about the shape you never thought to test, and the honest
-lesson from this release is that our corpus had a hole in it.
+lesson from this release is that our corpus had a hole in it. Two of these three
+bugs were found by writing documentation, not by a test failing.
 
-## Still open, and stated rather than hidden
+## Known limits, stated rather than hidden
 
-Native `try`/`except` lowers correctly but **does not yet catch every exception
-type at run time**. A `ZeroDivisionError` raised inside a `try` still aborts the
-native binary instead of reaching its handler:
+Exception handling is native and the common cases are correct. What remains is
+listed in full in [COMPATIBILITY.md](COMPATIBILITY.md):
 
-```python
-def safe_div(a: int, b: int) -> int:
-    try:
-        return a // b
-    except ZeroDivisionError:
-        return -1
-```
+- bare `raise` and re-raise inside a handler
+- exception chaining, `raise X from Y`
+- user-defined exception classes
+- traceback formatting on an uncaught exception: the program prints
+  `Class: message` and exits 1, because a native binary does not carry the
+  source-level frames a Python traceback is made of
 
-CPython prints `5` then `-1`. The native build prints `5` and then panics.
-
-A `try` whose body returns without raising works correctly, and handler bodies
-that `return` compile and run. **If your code depends on catching an error to
-continue, keep it on CPython** or use `tarvos run --python-fallback`. This is
-tracked as an open bug; it is written here because a compiler that quietly
-produces a crashing binary is worse than one that states its limit.
+The first release of this product was written with these limits published
+rather than discovered by users, which is the only reason the claims on this
+page are worth reading.
 
 ## What this release does not claim
 
@@ -167,7 +187,8 @@ replaces their tag scheme with an independent one.
 
 | Document | Covers |
 |---|---|
-| [README.md](README.md) | Product, subset, install on all three platforms |
+| [COMPATIBILITY.md](COMPATIBILITY.md) | Product, subset, and the exact boundary of every feature |
+| [ROADMAP.md](ROADMAP.md) | Product direction and what is deliberately out of scope |
 | [BENCHMARKS.md](BENCHMARKS.md) | Method, measured matrix, how to read a result |
 | [EXAMPLES.md](EXAMPLES.md) | Worked examples, each verified against CPython |
 | [SHOWCASE.md](SHOWCASE.md) | One kernel, end to end |

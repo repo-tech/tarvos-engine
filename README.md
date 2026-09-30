@@ -40,19 +40,24 @@ verified byte-identical to CPython. Read [BENCHMARKS.md](BENCHMARKS.md) for the
 method and the caveats before quoting a number — the honest framing matters more
 than the headline.
 
-### Known issues, honestly stated
+### Bugs found and fixed while writing these docs
 
-Two compiler bugs surfaced while validating this documentation, and one is
-still open. All three are in the compiler repository and written up there.
+Three compiler bugs surfaced when the examples on this page were run and their
+output compared against CPython. All three are fixed and covered by tests. They
+are written up here because they are the reason to trust the numbers on this
+page rather than take them on faith.
 
-- **Fixed before this release:** a tuple assignment inside a loop could leave a
-  stale constant, so `fib` returned `0` instead of `832040`. The workload that
-  reproduces it is now in the differential suite.
-- **Also fixed before this release:** a `return` inside an `except` handler
-  produced Rust that did not compile (`error[E0426]`).
-- **Still open:** native `try`/`except` lowers correctly but does not yet catch
-  every exception type at run time. A `ZeroDivisionError` raised inside a `try`
-  still aborts the native binary rather than reaching its handler.
+- **A tuple assignment inside a loop could leave a stale constant.** `fib`
+  returned `0` instead of `832040`. The binary built, ran, and printed a
+  plausible integer. The workload that reproduces it is now in the differential
+  suite.
+- **A `return` inside an `except` handler produced Rust that did not compile**
+  (`error[E0426]`).
+- **A zero divisor aborted the process instead of reaching its handler.**
+  `a // b` with `b == 0` called `.expect("ZeroDivisionError")` and killed the
+  binary, so `except ZeroDivisionError` was unreachable. Float `/` was worse
+  than a crash: it produced `inf` and the program carried on with a wrong
+  number.
 
   ```python
   def safe_div(a: int, b: int) -> int:
@@ -60,14 +65,18 @@ still open. All three are in the compiler repository and written up there.
           return a // b
       except ZeroDivisionError:
           return -1
+
+  print(safe_div(10, 2))   # 5
+  print(safe_div(1, 0))    # -1
   ```
 
-  CPython prints `5` then `-1`. The native build prints `5` and then panics.
+  Both lines now match CPython exactly, for `//`, `/` on integers, `/` on
+  floats, and `//` on floats.
 
-**Treat native `try`/`except` as partial for now.** If your code relies on
-catching an error to keep going, use CPython or
-`tarvos run --python-fallback`. Every example in [EXAMPLES.md](EXAMPLES.md) was
-run and verified on the current build.
+Exception handling is native and the common cases are correct. What is still
+missing is listed in [COMPATIBILITY.md](COMPATIBILITY.md): bare `raise`,
+exception chaining, user-defined exception classes, and traceback formatting on
+an uncaught exception.
 
 Four things this project is built around:
 
@@ -81,25 +90,26 @@ Four things this project is built around:
 
 ## Supported subset
 
-Tarvos is **not** a drop-in CPython replacement and this repository does not
-pretend otherwise. It targets statically analyzable, compute-heavy Python. At
-this release the capability matrix covers **95 features — 52 supported, 18
-partial, 24 unsupported, 1 planned**.
+95 features are classified, and the classification is published rather than
+implied: 52 supported, 18 partial, 24 unsupported, 1 planned. "Supported" means
+a differential test compiles the construct to a native binary and compares its
+output against CPython — not that it merely compiles.
 
-Native standard-library surface includes `math`, `time`, `os.path` (`join`,
-`basename`, `dirname`, `exists`, `isfile`, `isdir`), `statistics`, and the
-Python exception hierarchy with real `try`/`except`/`else`/`finally` and
-`raise`.
+**Read [COMPATIBILITY.md](COMPATIBILITY.md) before you port anything.** It lists
+every supported feature, every partial one with the exact limit, and everything
+that is refused.
 
-Check before you build:
+The short version: variables, arithmetic, control flow, typed functions,
+recursion, lists, dictionaries, strings, tuples, f-strings, local imports,
+`try`/`except`/`else`/`finally` with `raise`, and the `math`, `time`, `os.path`,
+`statistics` and `json` surfaces that the subset covers.
 
-```bash
-tarvos doctor
-tarvos scan ./my-project
-```
+What it is not: a CPython replacement, a NumPy or Pandas substitute, or a
+speedup for I/O-bound work. GUI toolkits, networking, metaprogramming, and
+third-party packages are outside the subset by design and are reported as such.
 
-`scan` reports which loops and library calls are inside the native subset, so you
-know what will compile before you rely on it.
+`tarvos scan ./your-project` tells you where a project stands before you invest
+in a migration.
 
 ## Install Tarvos
 
@@ -169,11 +179,19 @@ Worked benchmark walkthrough: [SHOWCASE.md](SHOWCASE.md).
 
 | Document | What it covers |
 |---|---|
+| [COMPATIBILITY.md](COMPATIBILITY.md) | Every supported feature, every partial one with its exact limit, and what is refused |
+| [ROADMAP.md](ROADMAP.md) | Where the compiler is going, and what is deliberately out of scope |
 | [BENCHMARKS.md](BENCHMARKS.md) | Benchmark method, the measured matrix, and how to read a result honestly |
 | [SHOWCASE.md](SHOWCASE.md) | End-to-end walkthrough of a real kernel with before/after timings |
 | [EXAMPLES.md](EXAMPLES.md) | Copy-paste examples per task, with what each one produces |
 | [RELEASE_NOTES.md](RELEASE_NOTES.md) | What shipped in each release |
 | [installer/README.md](installer/README.md) | Windows setup executable details |
+
+## Credits
+
+Tarvos is built and maintained by **Repo-Tech**. The compiler is developed
+privately; this repository is the public distribution layer, its documentation,
+and its release history.
 
 ## Versioning
 

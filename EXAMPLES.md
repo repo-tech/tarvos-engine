@@ -154,25 +154,10 @@ tarvos scan ./my-project
 Reports which loops and library calls are inside the native subset. This is the
 cheapest way to find out whether a migration is worth starting.
 
-## 10. `try` / `except` — read this one
+## 10. `try` / `except`
 
-Native `try`/`except` **lowers correctly but does not yet catch every exception
-type at run time.** A `try` whose body returns without raising works:
-
-```python
-def pick(n: int) -> int:
-    try:
-        return 100
-    except ValueError:
-        return -1
-
-print(pick(5))
-```
-
-Verified: `100`, identical to CPython.
-
-But an exception actually raised inside the `try` does not reliably reach its
-handler:
+Native `try`/`except` catches division, indexing, and key-lookup errors, and
+`except` matches the real Python exception hierarchy.
 
 ```python
 def safe_div(a: int, b: int) -> int:
@@ -185,19 +170,32 @@ print(safe_div(10, 2))
 print(safe_div(1, 0))
 ```
 
-CPython prints `5` then `-1`. The native build prints `5` and then panics with
-`ZeroDivisionError`.
+Verified: `5` then `-1`, identical to CPython.
 
-**If your code depends on catching an error to continue, do not put it on the
-native path yet.** Use CPython, or:
+A `try` that completes without raising also works:
 
-```bash
-tarvos run script.py --python-fallback
+```python
+def pick(n: int) -> int:
+    try:
+        return 100
+    except ValueError:
+        return -1
+
+print(pick(5))
 ```
 
-This is a known, open bug, tracked in the compiler repository. It is written
-here rather than hidden because a crashing binary is a worse outcome than a
-documented limit.
+Verified: `100`.
+
+This shape used to be broken. A zero divisor called
+`.expect("ZeroDivisionError")` and killed the native process, so the handler was
+unreachable; float `/` was worse and produced `inf` silently. Both are fixed,
+and a guarded-division workload now runs in the differential suite.
+
+**Still partial.** Bare `raise`, exception chaining (`raise X from Y`),
+user-defined exception classes, and traceback formatting on an uncaught
+exception are not supported yet. See [COMPATIBILITY.md](COMPATIBILITY.md) for
+the full list, and use `tarvos run --python-fallback` if you depend on one of
+those today.
 
 ## 11. Packaging a project
 
@@ -217,7 +215,10 @@ at build time:
 - runtime monkey-patching and `setattr`
 - metaprogramming and `eval`/`exec`
 - reflection, `getattr` on unknown names
-- generators and `yield` in unsupported positions
-- classes with metaclasses or `__slots__` tricks
+- generators and `yield`
+- classes with metaclasses, inheritance, or `__slots__` tricks
+- GUI, networking, and the scientific stack
 
-Run `tarvos scan` to see where a project stands before you invest in porting it.
+Run `tarvos scan` to see where a project stands before you invest in porting it,
+and read [COMPATIBILITY.md](COMPATIBILITY.md) for the exact boundary of every
+feature, including the partial ones.

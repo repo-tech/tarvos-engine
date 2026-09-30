@@ -99,7 +99,7 @@ its stdout against CPython. At this release:
 
 | Gate | Result |
 |---|---|
-| Differential parity | 20 passed, 0 failed, 1 skipped |
+| Differential parity | 21 passed, 0 failed, 1 skipped |
 | Workspace test suite | 0 failures |
 | Capability matrix | 95 features: 52 supported, 18 partial, 24 unsupported, 1 planned |
 | Version consistency | all declarations agree |
