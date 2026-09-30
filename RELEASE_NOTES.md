@@ -79,6 +79,25 @@ you invest in a migration.
 Every asset ships with a `.sha256` that the installers verify before writing
 anything to disk.
 
+### Documentation you can reach from the terminal
+
+`tarvos --help` now explains itself. It carries a quick start, the environment
+variables it reads, its exit codes, and worked examples, and all sixteen
+subcommands have their own long help covering what they do, when to reach for
+them, and how they fail:
+
+```console
+$ tarvos build --help
+$ tarvos run --help
+$ tarvos benchmark --help
+```
+
+Running `tarvos` with no arguments prints that same help, so the summary you get
+by accident is never a stale copy of it. If you are not sure whether a module is
+worth migrating, `tarvos analyze app.py --hot-functions` ranks the functions that
+benefit first, and `tarvos scan ./your-project` reports where the project as a
+whole stands.
+
 ## Three compiler bugs found while validating this release
 
 All three were found by running the documentation examples and comparing their
