@@ -1,4 +1,4 @@
-# Tarvos Engine
+# Tarvos Compiler
 
 [![Release](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/repo-tech/tarvos-engine/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)]()
