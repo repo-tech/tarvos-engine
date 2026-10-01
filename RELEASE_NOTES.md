@@ -3,9 +3,10 @@
 The first stable public release of Tarvos Engine.
 
 This is not a rebrand of an early preview. It is the point at which the product
-has a working compiler, a verified install path on all three platforms, a
-measured performance result, and a documented compatibility boundary — and,
-just as importantly, an honest account of what it still cannot do.
+has a working compiler, a measured performance result, a documented
+compatibility boundary — and, just as importantly, an honest account of what it
+still cannot do. Windows and Linux binaries are attached; the macOS binary is
+not, and that is stated below rather than glossed over.
 
 ## What Tarvos Engine is
 
@@ -28,7 +29,7 @@ executable:
 | | |
 |---|---|
 | **Version line** | `1.0.0`, independent of the `1.1.0-rc.6` compiler it was built from |
-| **Platforms** | Windows, Linux, macOS — no administrator rights, no Rust install, no Python at run time |
+| **Platforms** | Windows and Linux binaries attached; macOS buildable but not attached to this release |
 | **Feature classification** | 95 features: **52 supported**, 18 partial, 24 unsupported, 1 planned |
 | **Measured speedup** | **127.9×** over CPython 3.13.13 on an integer kernel, byte-identical output |
 | **Correctness gate** | 21 differential workloads vs CPython: 21 passed, 0 failed, 1 skipped |
@@ -88,9 +89,15 @@ you invest in a migration.
 | Platform | Method | Needs admin |
 |---|---|---|
 | Windows | `Tarvos-Setup-Windows-x86_64.exe`, or `install.ps1` | No |
-| Linux | `install.sh` | No |
-| macOS | `install.sh` | No |
+| Linux | `install.sh` with `tarvos-linux-x86_64` | No |
 | Any | `pip install .` (downloads and verifies the binary) | No |
+
+> **macOS has no binary attached to this release.** The macOS build cannot be
+> cross-compiled from Linux or Windows — it needs a macOS SDK and the Xcode
+> toolchain — so no `tarvos-darwin-x86_64` asset is attached. The macOS row is
+> missing from the table above rather than pointing at a file that is not
+> there. Build it on a Mac and attach it, or enable CI, before telling a macOS
+> user to run `install.sh`.
 
 Every asset ships with a `.sha256` that the installers verify before writing
 anything to disk.
