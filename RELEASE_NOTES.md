@@ -23,6 +23,22 @@ executable:
 - **No silent fallbacks.** Code outside the supported subset produces a named
   diagnostic, never a quietly different program.
 
+## At a glance
+
+| | |
+|---|---|
+| **Version line** | `1.0.0`, independent of the `1.1.0-rc.6` compiler it was built from |
+| **Platforms** | Windows, Linux, macOS — no administrator rights, no Rust install, no Python at run time |
+| **Feature classification** | 95 features: **52 supported**, 18 partial, 24 unsupported, 1 planned |
+| **Measured speedup** | **127.9×** over CPython 3.13.13 on an integer kernel, byte-identical output |
+| **Correctness gate** | 21 differential workloads vs CPython: 21 passed, 0 failed, 1 skipped |
+| **Works with** | Functions, classes, `try`/`except`, loops, comprehensions, f-strings, `math`, `time`, `os.path`, `statistics`, builtins |
+| **Does not work with** | Generators and `yield`, inheritance and `super()`, operator overloading, `dataclasses`, native `re`/`csv`/`datetime`, arbitrary-precision ints, `threading`/`asyncio`, `eval`/`exec` |
+| **Not a replacement for** | CPython itself, or the NumPy / Pandas / TensorFlow / PyTorch stack |
+
+If your program depends on a row from the bottom block, `tarvos scan` will tell
+you so before you start the port rather than after.
+
 ## What is in this release
 
 ### Performance, measured
@@ -187,6 +203,40 @@ page are worth reading.
 - No comparison against PyPy, Numba, Nuitka, or Codon is claimed: they were not
   installed on the measurement machine, and they are reported as unavailable
   rather than quietly omitted.
+
+## Where this is going
+
+Direction, not a schedule. Dates are deliberately absent: a compiler that
+promises a date for a feature it cannot yet type-check fails the same way one
+that silently produces a wrong answer.
+
+Every feature below has to clear one bar — a differential test comparing the
+compiled binary's output against CPython. It is not "supported" because it
+compiles.
+
+**Next, roughly in the order it is worth doing:**
+
+- **Exception completeness** — bare `raise` and re-raise, `raise X from Y`
+  chaining, user-defined exception classes, `str(KeyError)` repr quoting, and
+  traceback metadata carried into the binary for uncaught exceptions.
+- **Classes** — inheritance and `super()`, properties and descriptors,
+  operator overloading, and dunder methods lowered onto real Rust traits.
+  `dataclasses` is the single most requested gap for anyone porting real code.
+- **Iterators and generators** — `yield`, generator expressions, and custom
+  `__iter__` / `__next__` lowered to a Rust iterator.
+- **Standard library** — `os` beyond `os.path`, and native `re`, `csv`,
+  `datetime`, `collections`, and run-time `json.loads` / `json.dumps`. `re` is
+  the large one, and a common reason a port stops.
+- **Bigger integers** — CPython integers are arbitrary precision. A bignum
+  runtime costs the common case to serve a rare one, so the likely answer is a
+  compile-time switch rather than one behaviour.
+- **Concurrency** — not started. A compute kernel already parallelised across
+  processes gains nothing from a compiler that cannot describe concurrency yet.
+
+**Not planned, so you do not wait for it:** a CPython-compatible runtime,
+NumPy / Pandas / TensorFlow / PyTorch, GUI and networking toolkits, and runtime
+introspection (`eval`, `exec`, `getattr` on unknown names). The reasoning for
+each is in [ROADMAP.md](ROADMAP.md).
 
 ## Versioning
 
