@@ -9,7 +9,7 @@ your own run, trust your run and please open an issue.
 
 ```bash
 tarvos doctor
-tarvos toolchain install     # once; fetches and verifies the compiler
+tarvos toolchain --install     # once; fetches and verifies the compiler
 tarvos --version
 ```
 

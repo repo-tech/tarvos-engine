@@ -14,7 +14,7 @@ A Python-to-native-Rust compiler and the distribution layer that ships it. You
 install one thing, you point it at a `.py` file, and you get a standalone native
 executable:
 
-- **No Rust installation.** `tarvos toolchain install` fetches and verifies a
+- **No Rust installation.** `tarvos toolchain --install` fetches and verifies a
   pinned compiler for you. You are not asked to become a Rust developer to use
   a Python compiler.
 - **No Python at run time.** The output is a native binary. The machine it runs

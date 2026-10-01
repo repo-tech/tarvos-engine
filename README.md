@@ -80,7 +80,7 @@ an uncaught exception.
 
 Four things this project is built around:
 
-- **No toolchain to install.** `tarvos toolchain install` fetches and verifies a
+- **No toolchain to install.** `tarvos toolchain --install` fetches and verifies a
   pinned Rust channel for you. You install Tarvos, not a language ecosystem.
 - **No silent fallbacks.** A construct outside the supported subset produces a
   named diagnostic, never a quietly different program.
@@ -153,7 +153,7 @@ The released binary needs a Rust toolchain the first time you build. Tarvos
 installs and verifies one for you:
 
 ```bash
-tarvos toolchain install     # pinned and verified, into ~/.tarvos/toolchain
+tarvos toolchain --install     # pinned and verified, into ~/.tarvos/toolchain
 tarvos toolchain --status    # show what resolved and why
 tarvos toolchain --verify    # re-run validation stage by stage
 ```
