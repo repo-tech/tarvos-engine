@@ -7,6 +7,50 @@ asset="tarvos-linux-x86_64"
 bin_dir="${HOME}/.tarvos/bin"
 destination="${bin_dir}/tarvos"
 
+# Every transfer gets an explicit connect timeout and one retry. Without them a
+# host that accepts the connection and then stalls leaves the user watching an
+# installer that will never finish, which is indistinguishable from a slow
+# download. A connect timeout turns that silence into a clear failure, and the
+# transfer is verified afterwards, so a partial download is caught here rather
+# than becoming a confusing error later.
+curl_common=(--fail --location --silent --show-error
+             --connect-timeout 15 --retry 2 --retry-delay 2)
+
+fetch() {
+  local url="$1" out="$2" what="$3"
+  # Captured before the transfer so the reported rate covers the transfer itself.
+  local FETCH_STARTED
+  FETCH_STARTED="$(date +%s)"
+  # --max-time is generous: the binary is a few megabytes and a slow link is
+  # still a legitimate way to fetch it. It exists to stop an endless stall, not
+  # to cut a real download short.
+  if ! curl "${curl_common[@]}" --max-time 1800 -o "$out" "$url"; then
+    echo "Tarvos: could not download ${what}." >&2
+    echo "  url: ${url}" >&2
+    if [[ "$version" != "latest" ]]; then
+      echo "  Check that ${version} is published at https://github.com/${repository}/releases" >&2
+    fi
+    echo "  If this machine reaches GitHub slowly or not at all, download the asset" >&2
+    echo "  in a browser and re-run this script against the local file." >&2
+    exit 1
+  fi
+  if [[ ! -s "$out" ]]; then
+    echo "Tarvos: ${what} downloaded as an empty file; refusing to continue." >&2
+    exit 1
+  fi
+  # Report what the transfer cost, so a slow link is visible as a number rather
+  # than as silence followed by an unexplained pause.
+  local bytes elapsed rate
+  bytes="$(wc -c < "$out" | tr -d ' ')"
+  elapsed="$(awk -v n="${FETCH_STARTED:-0}" 'BEGIN{printf "%.1f", systime()-n}')"
+  rate="$(awk -v b="$bytes" -v s="$elapsed" 'BEGIN{if(s>0) printf "%.1f", b/s/1048576; else print "?"}')"
+  printf '  fetched %s (%s MiB in %ss, %s MiB/s)\n' \
+    "$what" \
+    "$(awk -v b="$bytes" 'BEGIN{printf "%.1f", b/1048576}')" \
+    "$elapsed" \
+    "$rate" >&2
+}
+
 mkdir -p "$bin_dir"
 if [[ "$version" == "latest" ]]; then
   base="https://github.com/${repository}/releases/latest/download"
@@ -15,8 +59,8 @@ else
 fi
 
 temporary="${destination}.tmp"
-curl --fail --location --silent --show-error "${base}/${asset}" -o "$temporary"
-curl --fail --location --silent --show-error "${base}/${asset}.sha256" -o "${temporary}.sha256"
+fetch "${base}/${asset}" "$temporary" "the ${asset} binary"
+fetch "${base}/${asset}.sha256" "${temporary}.sha256" "its checksum"
 
 expected="$(awk '{print tolower($1)}' "${temporary}.sha256")"
 actual="$(sha256sum "$temporary" | awk '{print tolower($1)}')"

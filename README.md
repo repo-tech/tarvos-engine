@@ -129,9 +129,19 @@ Set-ExecutionPolicy -Scope Process Bypass
 ### Linux and macOS
 
 ```bash
-curl --fail --location https://raw.githubusercontent.com/repo-tech/tarvos-engine/main/install.sh | bash
+curl --fail --location https://github.com/repo-tech/tarvos-engine/releases/download/v1.0.0/install.sh | bash
 exec "$SHELL" -l
 tarvos --version
+```
+
+The installer is fetched from the release rather than from
+`raw.githubusercontent.com` on purpose. On a measured connection the release
+asset arrived in 0.9s where the raw host took 30s for the same 1.3 kB script,
+which reads to a user as a frozen installer rather than as a slow one. If you
+prefer the raw URL it still works, it is just the slower of the two:
+
+```bash
+curl --fail --location https://raw.githubusercontent.com/repo-tech/tarvos-engine/main/install.sh | bash
 ```
 
 The installer places the CLI in `~/.tarvos/bin`, verifies the downloaded
