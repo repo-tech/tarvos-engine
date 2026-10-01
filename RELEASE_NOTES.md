@@ -254,12 +254,12 @@ here, and this repository's `VERSION` file is the single source of truth for
 the public version line.
 
 The binaries in this release report that line, not the compiler line they were
-built from. `tarvos --version` prints `tarvos 1.0.0` on every platform, so a
-user who installed this release is not told they are running `1.1.0-rc.6` — a
-compiler candidate that was never published as a product. The two lines are
-separated at build time rather than by a second hardcoded string, so an ordinary
-`cargo build` of the compiler still reports `1.1.0-rc.6` and its own release
-verification is unaffected.
+built from. `tarvos --version` prints `tarvos 1.0.0` on the Windows and Linux
+binaries attached here, so a user who installed this release is not told they
+are running `1.1.0-rc.6` — a compiler candidate that was never published as a
+product. The two lines are separated at build time rather than by a second
+hardcoded string, so an ordinary `cargo build` of the compiler still reports
+`1.1.0-rc.6` and its own release verification is unaffected.
 
 ## Earlier pre-releases
 
