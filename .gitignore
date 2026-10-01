@@ -1,0 +1,10 @@
+# Release artifacts are published as GitHub release attachments, not committed.
+# The build outputs here are also reproducible from the compiler source: they
+# carry a checksum and are verified before anything is written to disk.
+installer/output/
+installer/payload/
+release-assets/
+
+# Scratch files written while probing a build machine.
+*.probe
+*.log
