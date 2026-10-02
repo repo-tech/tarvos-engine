@@ -12,8 +12,8 @@ native executable — no Python runtime on the target, no `rustc` on the build
 machine, and no administrator rights during install.
 
 ```bash
-tarvos run kernel.py          # transpile, compile, and execute
-tarvos build kernel.py -o kernel
+tarvos run hello.py          # transpile, compile, and execute
+tarvos build hello.py -o hello.exe
 ```
 
 This is the **public distribution repository**: installers, documentation, the
@@ -175,9 +175,9 @@ compiler is validated before use and is never silently swapped for another.
 
 ```bash
 tarvos doctor                                   # environment and toolchain check
-tarvos run kernel.py                            # transpile, compile, run
-tarvos build kernel.py -o kernel                # standalone native binary
-tarvos compile kernel.py out.rs --source-only   # Rust only, no compiler needed
+tarvos run hello.py                            # transpile, compile, run
+tarvos build hello.py -o hello                # standalone native binary
+tarvos compile hello.py out.rs --source-only   # Rust only, no compiler needed
 tarvos scan ./my-project                        # what is inside the native subset
 tarvos package ./my-project --entry main.py     # Cargo project plus dist binary
 ```
