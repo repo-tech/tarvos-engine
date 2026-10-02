@@ -8,3 +8,9 @@ release-assets/
 # Scratch files written while probing a build machine.
 *.probe
 *.log
+
+# Python bytecode and pytest state. These are build products, not source, and
+# committing them makes every run dirty the working tree.
+__pycache__/
+*.py[cod]
+.pytest_cache/
