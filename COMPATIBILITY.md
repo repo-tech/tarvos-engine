@@ -12,6 +12,35 @@ Nothing here is a silent fallback. If a construct is not in the subset, the
 compiler names it and stops, rather than quietly producing a program that
 behaves differently.
 
+## Third-party packages
+
+The same rule applies one level up, to whole packages. Every import is
+classified *before* the compiler starts, and a build that cannot lower one stops
+and names it rather than emitting an executable that quietly needs it installed:
+
+| Class | Meaning | Example |
+|---|---|---|
+| `NATIVE_SUPPORTED` | Lowered to Rust the compiler writes itself | `math`, `json`, `os`, `os.path`, `statistics`, `time` |
+| `NATIVE_PARTIAL` | Compiles only for the shapes the specializer recognizes | `numpy`, `pandas` |
+| `EXTERNAL_RUNTIME` | Never lowered; needs Python with it installed | `flask`, `requests`, `scipy` |
+| `UNSUPPORTED` | Not something Tarvos has ever claimed | anything else |
+
+`numpy` and `pandas` are **partial**, not supported. Only the loop patterns the
+compiler recognizes compile; anything else in those libraries does not, and the
+build says so. An unknown name is `UNSUPPORTED` rather than `EXTERNAL_RUNTIME`,
+because the honest answer for `mystery_lib` is that Tarvos has never heard of it,
+not that you should go and install it.
+
+The classification never inspects `site-packages`. It is a property of the
+compiler, not of one machine, so a program is classified the same way on a clean
+build machine as on a developer laptop.
+
+To run a program that imports a third-party package, use `tarvos run` on a machine
+where it is installed, or `tarvos build --compat-launcher` to get a single file
+that carries its own source — with the manifest recording that it is not a native
+binary and listing what the target machine needs. See the README section
+"What standalone means, precisely".
+
 ## How to check your own project
 
 ```bash

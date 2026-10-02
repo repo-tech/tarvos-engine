@@ -23,6 +23,11 @@ executable:
   Windows, `~/.tarvos` on Linux and macOS.
 - **No silent fallbacks.** Code outside the supported subset produces a named
   diagnostic, never a quietly different program.
+- **Checkable claims.** Every build writes a manifest beside the artifact
+  recording its real format, whether it is native, and what it needs to run;
+  `tarvos validate-artifact` reads it back. A program that imports an unlowerable
+  package is refused by name instead of becoming an executable that only works
+  where the build machine happened to have that package installed.
 
 ## At a glance
 

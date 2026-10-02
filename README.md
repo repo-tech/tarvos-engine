@@ -88,6 +88,62 @@ Four things this project is built around:
   tests that compare compiled-binary stdout against CPython.
 - **No administrator rights.** Everything lands under your user profile.
 
+### What "standalone" means, precisely
+
+A native Tarvos binary embeds its own lowered Rust. Copy it to a machine with no
+Python, no packages, no Rust, and no Tarvos, and it runs. That is the claim, and
+`tarvos validate-artifact` will tell you whether an artifact is entitled to it:
+
+```console
+$ tarvos validate-artifact hello.exe
+Artifact:          hello.exe
+Format:            PE
+Target:            windows-x86_64
+Native:            YES
+Python required:   NO
+Temporary .py:     NO
+External packages: NONE
+Status:            PASS
+```
+
+The format is read from the file's own header, not from its name, so a binary
+built for the wrong platform is reported as the mismatch it is rather than
+trusting the `.exe` suffix.
+
+If a program imports something the compiler cannot lower — `flask`, `requests`,
+`numpy` outside its supported shapes — the build **stops and names it**:
+
+```console
+$ tarvos build server.py
+TARVOS NATIVE COMPILATION BLOCKED
+
+Unbuildable dependencies:
+  EXTERNAL_RUNTIME  flask
+
+Choose:
+  1. Rewrite this part with a native module (math, time, os, os.path, json, statistics)
+  2. Run it as Python on a machine that has these packages installed: `tarvos run`
+  3. Build a compatibility launcher and accept that it needs Python at run time:
+     `tarvos build --compat-launcher`
+```
+
+You can still get a working file for such a program by asking for it explicitly
+with `--compat-launcher`. It is a single executable that carries its own source
+and runs it through the target machine's Python. **It is not a native binary**, it
+needs Python and every package your program imports installed on the machine that
+runs it, and its manifest says so:
+
+```console
+$ tarvos validate-artifact server.exe
+Native:            NO
+Python required:   YES
+External packages: flask
+Status:            COMPATIBILITY
+```
+
+Every `tarvos build` writes a `<artifact>.tarvos-manifest.json` beside what it
+produced, so you can check this claim later rather than trusting it.
+
 ## Supported subset
 
 95 features are classified, and the classification is published rather than
@@ -177,6 +233,7 @@ compiler is validated before use and is never silently swapped for another.
 tarvos doctor                                   # environment and toolchain check
 tarvos run hello.py                            # transpile, compile, run
 tarvos build hello.py -o hello                # standalone native binary
+tarvos validate-artifact hello                 # what does it need to run?
 tarvos compile hello.py out.rs --source-only   # Rust only, no compiler needed
 tarvos scan ./my-project                        # what is inside the native subset
 tarvos package ./my-project --entry main.py     # Cargo project plus dist binary
