@@ -30,9 +30,14 @@ def _asset() -> str:
         return "tarvos.exe"
     if system == "linux" and machine in {"amd64", "x86_64", "x64"}:
         return "tarvos"
-    if system == "darwin" and machine in {"amd64", "x86_64", "x64"}:
-        return "tarvos-macos-x86_64"
-    raise RuntimeError(f"Tarvos has no published binary for {system}/{machine}")
+    # macOS is deliberately absent rather than mapped to an asset that is not
+    # published. A name that resolves would install successfully and then fail
+    # on the download with a 404, which tells the user nothing; refusing here
+    # names the platform they are on and what to do instead.
+    raise RuntimeError(
+        f"Tarvos has no published binary for {system}/{machine}. "
+        "This release ships Windows and Linux binaries only."
+    )
 
 
 def _bin_dir() -> Path:

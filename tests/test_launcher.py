@@ -40,15 +40,29 @@ def test_linux_x86_64_resolves_without_an_exe_suffix():
     assert _asset("Linux", "x86_64") == "tarvos"
 
 
-def test_macos_x86_64_resolves_to_the_macos_asset():
-    assert _asset("Darwin", "x86_64") == "tarvos-macos-x86_64"
+def test_macos_is_refused_and_says_why():
+    # macOS is not built for this release. Mapping it to an asset that does not
+    # exist would install cleanly and then fail on the download, so the launcher
+    # refuses while it still knows the platform, and names it.
+    try:
+        _asset("Darwin", "x86_64")
+    except RuntimeError as error:
+        message = str(error)
+        assert "darwin/x86_64" in message
+        # The user has to be told which platforms do work, or the refusal is
+        # just a dead end.
+        assert "Windows and Linux" in message
+    else:
+        raise AssertionError(
+            "no macOS binary is published, so macOS must not resolve to an asset"
+        )
 
 
 def test_macos_arm64_is_refused_rather_than_given_an_intel_binary():
     # Apple silicon runs x86_64 under emulation, but that is not something a
     # launcher may promise on the user's behalf: it costs memory they may not
-    # have, and it fails outright on a machine without Rosetta. The refusal is
-    # the honest answer until an arm64 build is published.
+    # have, and it fails outright on a machine without Rosetta. Refusing is the
+    # honest answer, and now it is also the only answer.
     try:
         _asset("Darwin", "arm64")
     except RuntimeError as error:
@@ -71,7 +85,10 @@ def test_an_unsupported_machine_fails_with_the_platform_in_the_message():
 
 
 def test_a_32_bit_machine_is_not_silently_given_a_64_bit_binary():
-    for system in ("Windows", "Linux", "Darwin"):
+    # Only the platforms that ship a binary are listed. macOS is excluded
+    # because it resolves to nothing at all, which the two macOS tests above
+    # already cover; listing it here would assert a refusal is an error.
+    for system in ("Windows", "Linux"):
         try:
             _asset(system, "x86")
         except RuntimeError:
@@ -176,7 +193,7 @@ def test_a_release_missing_its_binary_is_refused(monkeypatch, tmp_path):
     # A release published without the asset this platform needs is a publishing
     # mistake, and the message has to say so rather than reporting a checksum
     # problem the user cannot act on.
-    asset = "tarvos-macos-x86_64"
+    asset = "tarvos"
     manifest = json.dumps({"tag_name": "v1.0.0", "assets": []}).encode("utf-8")
 
     monkeypatch.setattr(launcher, "_bin_dir", lambda: tmp_path / "bin")
@@ -195,7 +212,10 @@ def test_main_reports_failure_instead_of_raising(monkeypatch, capsys):
     # `main` is the console-script entry point. An uncaught exception there
     # produces a traceback that says nothing about what the user should do.
     def boom():
-        raise RuntimeError("Tarvos has no published binary for darwin/arm64")
+        raise RuntimeError(
+            "Tarvos has no published binary for darwin/arm64. "
+            "This release ships Windows and Linux binaries only."
+        )
 
     monkeypatch.setattr(launcher, "_download_binary", boom)
 

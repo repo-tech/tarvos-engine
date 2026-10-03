@@ -55,14 +55,14 @@ optimized artifact you would ship.
 
 ## One honest limitation
 
-**macOS on Apple silicon (arm64) is not supported.** There is no arm64 build.
-Rather than hand you an x86_64 binary that only works under emulation — costing
-memory you may not have and failing outright without Rosetta — `tarvos` refuses
-and says so. If you need macOS today, run it on an x86_64 Mac or in a VM.
+**macOS is not supported at all.** This release ships Windows and Linux
+binaries only. There is no macOS asset to download, so the launcher refuses on
+macOS and says which platforms do work, rather than installing and then failing
+on a missing download.
 
 ## Validation
 
-- The full test suite passes on Windows, Ubuntu and macOS before this release is
+- The full test suite passes on Windows and Ubuntu before this release is
   published.
 - Output is compared against CPython on every workload, and the compiler's own
   differential corpus gates the build.
@@ -77,6 +77,7 @@ irm https://github.com/repo-tech/tarvos/releases/download/v1.3.0/install.ps1 | i
 ```
 
 ```bash
+# Linux
 curl -fsSL https://github.com/repo-tech/tarvos/releases/download/v1.3.0/install.sh | sh
 ```
 
@@ -86,8 +87,8 @@ Or through the Python package, which now defaults to this release:
 pip install --upgrade tarvos
 ```
 
-No configuration changes are needed. The only behavioural difference from
-`1.0.0` is the macOS arm64 limitation above.
+No configuration changes are needed. The one behavioural difference from
+`1.0.0` is that macOS is no longer a target at all.
 
 ## Full Changelog
 
