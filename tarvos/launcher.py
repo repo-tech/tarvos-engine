@@ -20,9 +20,9 @@ def _asset() -> str:
     system = platform.system().lower()
     machine = platform.machine().lower()
     if system == "windows" and machine in {"amd64", "x86_64", "x64"}:
-        return "tarvos-windows-x86_64.exe"
+        return "tarvos.exe"
     if system == "linux" and machine in {"amd64", "x86_64", "x64"}:
-        return "tarvos-linux-x86_64"
+        return "tarvos"
     if system == "darwin" and machine in {"amd64", "x86_64", "x64"}:
         return "tarvos-macos-x86_64"
     raise RuntimeError(f"Tarvos has no published binary for {system}/{machine}")
