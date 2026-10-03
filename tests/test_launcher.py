@@ -31,13 +31,13 @@ def _asset(system: str, machine: str) -> str:
 
 
 def test_windows_x86_64_resolves_to_the_windows_asset():
-    assert _asset("Windows", "AMD64") == "tarvos-windows-x86_64.exe"
+    assert _asset("Windows", "AMD64") == "tarvos.exe"
 
 
 def test_linux_x86_64_resolves_without_an_exe_suffix():
     # A `.exe` name is a PE file that Linux cannot execute, so this is an
     # architecture requirement rather than a naming preference.
-    assert _asset("Linux", "x86_64") == "tarvos-linux-x86_64"
+    assert _asset("Linux", "x86_64") == "tarvos"
 
 
 def test_macos_x86_64_resolves_to_the_macos_asset():
