@@ -1,5 +1,3 @@
-# pyproject.toml file start
-
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
@@ -19,13 +17,51 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Rust",
 ]
+dependencies = [
+    # --- 🌐 Web Development, Servers & APIs (Enterprise Standard) ---
+    "flask>=3.0.0",          
+    "fastapi>=0.136.0",      
+    "uvicorn>=0.28.0",        
+    "django>=5.0.0",          
+    "requests>=2.31.0",       
+    "httpx>=0.27.0",          
+    "aiohttp>=3.9.0",         
+
+    # --- 📊 Data Science, AI & Big Data (Used by Meta, Google, Uber) ---
+    "numpy>=1.26.0",          
+    "pandas>=2.2.0",          
+    "scikit-learn>=1.4.0",    
+    "scipy>=1.12.0",          
+    "matplotlib>=3.8.0",      
+    "seaborn>=0.13.0",        
+    "polars>=0.20.0",         
+
+    # --- 🗄️ Database Connections & ORMs (MNC Data Infrastructure) ---
+    "sqlalchemy>=2.0.0",      
+    "psycopg2-binary>=2.9.0", 
+    "pymongo>=4.6.0",         
+    "redis>=5.0.0",           
+    "alembic>=1.13.0",        
+
+    # --- ⚙️ System Utilities, Optimization & CLI tools ---
+    "click>=8.1.0",           
+    "pydantic>=2.10.0",       
+    "python-dotenv>=1.0.0",   
+    "rich>=13.7.0",           
+    "psutil>=5.9.0",          
+    
+    # --- 🔒 Security, Auth & Cloud Essentials ---
+    "cryptography>=42.0.0",   
+    "pyjwt>=2.8.0",           
+    "boto3>=1.34.0",          
+    
+    # --- 🧪 Testing & Code Quality (Tech Giants Dev-Ops) ---
+    "pytest>=8.0.0",          
+    "ruff>=0.3.0"             
+]
 
 [project.scripts]
 tarvos = "tarvos:main"
 
 [tool.setuptools.packages.find]
 include = ["tarvos*"]
-
-    # --- 🧪 Testing & Code Quality (Tech Giants Dev-Ops) ---
-    "pytest>=8.0.0",          # Industry standard for unit testing applications
-    "ruff>=0.3.0"             # Extremely fast Python linter and formatter written in Rust
