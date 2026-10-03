@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tarvos"
-version = "0.9.0"
+version = "1.0.0"
 description = "Tarvos Engine public distribution for the Tarvos Python-to-native Rust compiler"
 readme = "README.md"
 authors = [{ name = "Repo-Tech Team" }]
