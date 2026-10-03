@@ -1,3 +1,98 @@
+# Tarvos Engine 1.3.0
+
+The third stable release. `1.3.0` is built from compiler `1.3.0`, and the single
+change that matters to you is this: **ordinary Python now compiles instead of
+quietly falling back.**
+
+## What you can do that you could not before
+
+```python
+x = 0
+x = "cecece"
+print(x)          # cecece
+```
+
+Before this release that program printed `cecece` — by running under CPython.
+Nothing printed an error, nothing looked slow enough to notice, and no manifest
+flagged it. But the program was not native, so it ran at Python's speed, and the
+reason you installed a compiler had quietly evaporated.
+
+In `1.3.0` that compiles to a real native executable. The same is true for a
+name that changes from `str` to `int`, from `bool` to `str`, or from `int` to
+`list`, and for arithmetic or comparison on any such name:
+
+```python
+x = 1
+x = "a"
+print(x + "b")    # ab
+print(x == "a")   # True
+```
+
+Python's own rules still decide what is allowed. `"a" + 1` raises a `TypeError`
+here exactly as it does in Python, rather than being refused at compile time or
+silently doing something else.
+
+## `tarvos run` is faster on the first run
+
+`tarvos run` compiles a program and then executes it, so it optimizes for time
+to first run. It was instead applying settings meant for producing a small
+shipped artifact, which cost about 0.6 seconds per run for no measurable gain:
+the resulting program ran in the same time and came out the same size.
+
+Measured on a 3-million-iteration loop, cold cache: **4.7 seconds before, 4.1
+seconds after**, with identical output and identical binary size. You feel this
+on every `tarvos run`. `tarvos build` is unchanged and still produces the
+optimized artifact you would ship.
+
+## What has not changed
+
+- The output is still a standalone native executable. No Python at run time.
+- Still no Rust installation required; the pinned toolchain is fetched and
+  verified for you.
+- Still no administrator rights.
+- Still no silent fallbacks. Code outside the supported subset produces a named
+  diagnostic.
+
+## One honest limitation
+
+**macOS on Apple silicon (arm64) is not supported.** There is no arm64 build.
+Rather than hand you an x86_64 binary that only works under emulation — costing
+memory you may not have and failing outright without Rosetta — `tarvos` refuses
+and says so. If you need macOS today, run it on an x86_64 Mac or in a VM.
+
+## Validation
+
+- The full test suite passes on Windows, Ubuntu and macOS before this release is
+  published.
+- Output is compared against CPython on every workload, and the compiler's own
+  differential corpus gates the build.
+- This release was verified against CPython 3.13.13 on arithmetic, loops,
+  functions, list comprehensions, dictionaries, string methods, conditionals,
+  and every supported type-change case.
+
+## Upgrade
+
+```powershell
+irm https://github.com/repo-tech/tarvos/releases/download/v1.3.0/install.ps1 | iex
+```
+
+```bash
+curl -fsSL https://github.com/repo-tech/tarvos/releases/download/v1.3.0/install.sh | sh
+```
+
+Or through the Python package, which now defaults to this release:
+
+```bash
+pip install --upgrade tarvos
+```
+
+No configuration changes are needed. The only behavioural difference from
+`1.0.0` is the macOS arm64 limitation above.
+
+## Full Changelog
+
+https://github.com/repo-tech/tarvos-engine/compare/v1.0.0...v1.3.0
+
 # Tarvos Engine 1.0.0
 
 The first stable public release of Tarvos Engine.

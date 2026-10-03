@@ -11,7 +11,14 @@ from urllib.error import HTTPError, URLError
 from pathlib import Path
 
 
-VERSION = os.environ.get("TARVOS_VERSION", "v1.0.0")
+# The distribution version this package installs by default.
+#
+# This is a literal, and it has to be kept equal to the `VERSION` file at the
+# repository root: the release workflow reads that file to decide which tag the
+# binaries are published under. If the two drift, `pip install tarvos` installs
+# happily and then looks for a tag that has no assets, which is a far worse
+# failure than a version mismatch at install time.
+VERSION = os.environ.get("TARVOS_VERSION", "v1.3.0")
 REPOSITORY = os.environ.get("TARVOS_REPOSITORY", "repo-tech/tarvos-engine")
 TOKEN = os.environ.get("TARVOS_GITHUB_TOKEN")
 
