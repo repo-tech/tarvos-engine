@@ -19,6 +19,37 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Rust",
 ]
+dependencies = [
+    "flask>=3.0.0",
+    "fastapi>=0.136.0",
+    "uvicorn>=0.28.0",
+    "django>=5.0.0",
+    "requests>=2.31.0",
+    "httpx>=0.27.0",
+    "aiohttp>=3.9.0",
+    "numpy>=1.26.0",
+    "pandas>=2.2.0",
+    "scikit-learn>=1.4.0",
+    "scipy>=1.12.0",
+    "matplotlib>=3.8.0",
+    "seaborn>=0.13.0",
+    "polars>=0.20.0",
+    "sqlalchemy>=2.0.0",
+    "psycopg2-binary>=2.9.0",
+    "pymongo>=4.6.0",
+    "redis>=5.0.0",
+    "alembic>=1.13.0",
+    "click>=8.1.0",
+    "pydantic>=2.10.0",
+    "python-dotenv>=1.0.0",
+    "rich>=13.7.0",
+    "psutil>=5.9.0",
+    "cryptography>=42.0.0",
+    "pyjwt>=2.8.0",
+    "boto3>=1.34.0",
+    "pytest>=8.0.0",
+    "ruff>=0.3.0"
+]
 
 [project.scripts]
 tarvos = "tarvos:main"
@@ -26,44 +57,6 @@ tarvos = "tarvos:main"
 [tool.setuptools.packages.find]
 include = ["tarvos*"]
 
-dependencies = [
-    # --- 🌐 Web Development, Servers & APIs (Enterprise Standard) ---
-    "flask>=3.0.0",          # Lightweight web framework used by Netflix/Pinterest
-    "fastapi>=0.136.0",      # High-performance API framework (MNC Standard)
-    "uvicorn>=0.28.0",        # Lightning-fast ASGI server for FastAPI
-    "django>=5.0.0",          # Heavy-duty web framework used by Instagram/Spotify
-    "requests>=2.31.0",       # Standard for making HTTP client requests
-    "httpx>=0.27.0",          # Modern async HTTP client (Next-gen requests)
-    "aiohttp>=3.9.0",         # Asynchronous HTTP client/server for handling high concurrency
-
-    # --- 📊 Data Science, AI & Big Data (Used by Meta, Google, Uber) ---
-    "numpy>=1.26.0",          # Fundamental package for scientific computing
-    "pandas>=2.2.0",          # Data manipulation and analysis (MNC essentials)
-    "scikit-learn>=1.4.0",    # Machine learning algorithms for production
-    "scipy>=1.12.0",          # Advanced science and engineering mathematics
-    "matplotlib>=3.8.0",      # Data visualization and plotting charts
-    "seaborn>=0.13.0",        # Statistical data visualization (Beautiful charts)
-    "polars>=0.20.0",         # Ultra-fast DataFrame library (MNCs replace Pandas with this for Speed)
-
-    # --- 🗄️ Database Connections & ORMs (MNC Data Infrastructure) ---
-    "sqlalchemy>=2.0.0",      # Enterprise-grade Database ORM
-    "psycopg2-binary>=2.9.0", # PostgreSQL database adapter for production apps
-    "pymongo>=4.6.0",         # MongoDB driver for NoSQL database needs
-    "redis>=5.0.0",           # In-memory database cache for high-speed systems
-    "alembic>=1.13.0",        # Database migrations tool used with SQLAlchemy
-
-    # --- ⚙️ System Utilities, Optimization & CLI tools ---
-    "click>=8.1.0",           # Beautiful command line interfaces creation
-    "pydantic>=2.10.0",       # Data validation and settings management (highly optimized)
-    "python-dotenv>=1.0.0",   # Managing environment variables securely (.env)
-    "rich>=13.7.0",           # Rich text and beautiful formatting in terminal outputs
-    "psutil>=5.9.0",          # Cross-platform process and system monitoring library
-    
-    # --- 🔒 Security, Auth & Cloud Essentials ---
-    "cryptography>=42.0.0",   # Core cryptographic recipes and encryption
-    "pyjwt>=2.8.0",           # JSON Web Tokens for MNC authentication systems
-    "boto3>=1.34.0",          # AWS SDK (Essential for cloud deployment in Amazon/Netflix)
-    
     # --- 🧪 Testing & Code Quality (Tech Giants Dev-Ops) ---
     "pytest>=8.0.0",          # Industry standard for unit testing applications
     "ruff>=0.3.0"             # Extremely fast Python linter and formatter written in Rust
