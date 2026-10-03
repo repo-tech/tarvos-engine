@@ -32,7 +32,7 @@ def _asset(system: str, machine: str) -> str:
 
 def test_windows_x86_64_resolves_to_the_windows_asset():
     assert _asset("Windows", "AMD64") == "tarvos.exe"
-
+# 
 
 def test_linux_x86_64_resolves_without_an_exe_suffix():
     # A `.exe` name is a PE file that Linux cannot execute, so this is an
