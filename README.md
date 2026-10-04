@@ -1,4 +1,7 @@
-## Tarvos Compiler
+<p align="center">
+  <img width="150" height="150" alt="logo" src="https://github.com/user-attachments/assets/53160aa9-b9c3-487e-ba7e-a7cf227bde2b" />
+  <b>Tarvos</b>
+</p>
 
 [![Release](https://img.shields.io/badge/version-1.3.1-blue.svg)](https://github.com/repo-tech/tarvos-engine/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey.svg)]()
