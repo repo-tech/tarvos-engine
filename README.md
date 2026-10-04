@@ -3,8 +3,6 @@
 </p>
 
 <div align="center">
-Tarvos 
-
 [![CI](https://github.com/repo-tech/tarvos-engine/actions/workflows/python-package.yml/badge.svg)](https://github.com/repo-tech/tarvos-engine/actions/workflows/python-package.yml)
 [![Release](https://img.shields.io/badge/version-1.3.1-blue.svg)](https://github.com/repo-tech/tarvos-engine/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -13,7 +11,7 @@ Tarvos
 </div>
 **Python to native Rust. No Rust installation required.**
 
-Tarvos Engine is the public distribution layer for Tarvos 1.3.1: a
+Tarvos Compiler - engine is the public distribution layer for Tarvos 1.3.1: a
 Python-to-native Rust compiler and CLI for statically analyzable, compute-heavy
 Python workloads. Point it at a `.py` file and get an optimized standalone
 native executable — no Python runtime on the target, no `rustc` on the build
