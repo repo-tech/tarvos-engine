@@ -285,10 +285,10 @@ Worked benchmark walkthrough: [SHOWCASE.md](SHOWCASE.md).
 
 ## Benchmarks
 <p align="center">
-  <img width="850" height="150" alt="tarvos_benchmark_comparison" src="https://github.com/user-attachments/assets/26abac08-da2c-47ea-9bc6-429479371bb2" />
+  <img width="850" height="fit-content" alt="tarvos_benchmark_comparison" src="https://github.com/user-attachments/assets/26abac08-da2c-47ea-9bc6-429479371bb2" />
 </p>
 <p align="center">
-  <img width="850" height="150" alt="tarvos_benchmark_source_workloads_complete" src="https://github.com/user-attachments/assets/df97e5fe-b6c9-4167-899c-0da974a9880d" />
+  <img width="850" height="fit-content" alt="tarvos_benchmark_source_workloads_complete" src="https://github.com/user-attachments/assets/df97e5fe-b6c9-4167-899c-0da974a9880d" />
 </p>
 
 ## Credits
