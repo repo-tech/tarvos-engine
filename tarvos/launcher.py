@@ -12,7 +12,7 @@ from urllib.error import HTTPError, URLError
 from pathlib import Path
 
 # The distribution version this package installs by default.
-VERSION = "v1.3.1"
+VERSION = os.environ.get("TARVOS_VERSION", "1.3.1")
 REPOSITORY = "repo-tech/tarvos-engine"
 
 
