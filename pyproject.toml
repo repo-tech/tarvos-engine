@@ -50,7 +50,7 @@ dependencies = [
 ]
 
 [project.scripts]
-tarvos = "tarvos.main:main"
+tarvos = "tarvos.launcher:main"
 
-[tool.setuptools]
-packages = ["tarvos"]
+[tool.setuptools.packages.find]
+include = ["tarvos*"]
