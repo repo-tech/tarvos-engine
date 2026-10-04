@@ -211,13 +211,14 @@ def test_a_release_missing_its_binary_is_refused(monkeypatch, tmp_path):
 def test_main_reports_failure_instead_of_raising(monkeypatch, capsys):
     # `main` is the console-script entry point. An uncaught exception there
     # produces a traceback that says nothing about what the user should do.
-    def boom():
-        raise RuntimeError(
-            "Tarvos has no published binary for darwin/arm64. "
-            "This release ships Windows and Linux binaries only."
-        )
-
-    monkeypatch.setattr(launcher, "_download_binary", boom)
+    #
+    # The unsupported-platform error is raised by the real `_asset()` rather
+    # than by a stand-in. Substituting `_download_binary` with a fake that
+    # raises a hardcoded string makes the assertions below check the fake's
+    # own wording instead of the shipped message, which is how an earlier
+    # version of this test came to assert text the product never emitted.
+    monkeypatch.setattr(launcher.platform, "system", lambda: "Darwin")
+    monkeypatch.setattr(launcher.platform, "machine", lambda: "arm64")
 
     code = launcher.main()
 
