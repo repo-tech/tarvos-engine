@@ -3,7 +3,7 @@
 </p>
 
 <div align="center">
-[![CI](https://github.com/repo-tech/tarvos-engine/actions/workflows/python-package.yml/badge.svg)](https://github.com/repo-tech/tarvos-engine/actions/workflows/python-package.yml)
+[![CI](https://github.com/repo-tech/tarvos-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/repo-tech/tarvos-engine/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/badge/version-1.3.1-blue.svg)](https://github.com/repo-tech/tarvos-engine/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)]()
