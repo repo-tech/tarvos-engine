@@ -51,3 +51,6 @@ dependencies = [
 
 [project.scripts]
 tarvos = "tarvos.launcher:main"
+
+[tool.setuptools.package-dir]
+tarvos = "tarvos"
