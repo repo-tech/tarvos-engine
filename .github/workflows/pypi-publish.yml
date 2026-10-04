@@ -1,8 +1,10 @@
 name: Publish Python Package
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -33,4 +35,4 @@ jobs:
         run: python -m build
 
       - name: Publish package to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1  # 💡 यहाँ 'github-action' कर दिया गया है
+        uses: pypa/gh-action-pypi-publish@release/v1
