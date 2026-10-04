@@ -18,7 +18,7 @@ from pathlib import Path
 # binaries are published under. If the two drift, `pip install tarvos` installs
 # happily and then looks for a tag that has no assets, which is a far worse
 # failure than a version mismatch at install time.
-VERSION = os.environ.get("TARVOS_VERSION", "v1.3.0")
+VERSION = os.environ.get("TARVOS_VERSION", "v1.3.1")
 REPOSITORY = os.environ.get("TARVOS_REPOSITORY", "repo-tech/tarvos-engine")
 TOKEN = os.environ.get("TARVOS_GITHUB_TOKEN")
 

@@ -1,8 +1,37 @@
-# Tarvos Engine 1.3.0
+# Tarvos Engine 1.3.1
 
-The third stable release. `1.3.0` is built from compiler `1.3.0`, and the single
-change that matters to you is this: **ordinary Python now compiles instead of
-quietly falling back.**
+A maintenance release. `1.3.1` is built from compiler `1.3.1` and carries the
+native dynamic-typing work introduced in `1.3.0`. Two native-codegen bugs that
+made ordinary Python fail to compile are fixed, the binary now reports the
+correct version, and the documentation states what Tarvos cannot do.
+
+## Fixed
+
+- **Float `/` with an integer divisor did not compile.** `7.0 / 2` emitted its
+  zero-guard as `2_i64 == 0.0_f64`, which is not valid Rust. If you write a
+  float divided by an integer, that program failed the build.
+
+- **`sum(range(...))` did not compile.** The generated code called `.iter()` on
+  Rust's `Range`, which has no such method.
+
+  ```python
+  print(sum(range(100)))        # 4950
+  print(sum(range(0, 100, 2)))  # 2500
+  ```
+
+  Both now compile natively and match CPython exactly.
+
+- **The binary reported the wrong version.** `--version` printed `1.0.0` for a
+  `1.3.0` build, because a stale repository variable overrode `Cargo.toml`.
+
+## Documentation
+
+- **[LIMITATIONS.md](LIMITATIONS.md) is new.** It states plainly what Tarvos
+  cannot do and why — including the fact that third-party Python packages are
+  not bundled into the binary and that there is no embedded CPython, with the
+  reasons.
+- The README no longer lists a macOS asset in the release contract. There is not
+  one, and has not been since `1.3.0`.
 
 ## What you can do that you could not before
 
@@ -17,7 +46,7 @@ Nothing printed an error, nothing looked slow enough to notice, and no manifest
 flagged it. But the program was not native, so it ran at Python's speed, and the
 reason you installed a compiler had quietly evaporated.
 
-In `1.3.0` that compiles to a real native executable. The same is true for a
+In `1.3.1` that compiles to a real native executable. The same is true for a
 name that changes from `str` to `int`, from `bool` to `str`, or from `int` to
 `list`, and for arithmetic or comparison on any such name:
 
@@ -73,12 +102,12 @@ on a missing download.
 ## Upgrade
 
 ```powershell
-irm https://github.com/repo-tech/tarvos/releases/download/v1.3.0/install.ps1 | iex
+irm https://github.com/repo-tech/tarvos/releases/download/v1.3.1/install.ps1 | iex
 ```
 
 ```bash
 # Linux
-curl -fsSL https://github.com/repo-tech/tarvos/releases/download/v1.3.0/install.sh | sh
+curl -fsSL https://github.com/repo-tech/tarvos/releases/download/v1.3.1/install.sh | sh
 ```
 
 Or through the Python package, which now defaults to this release:
@@ -92,7 +121,7 @@ No configuration changes are needed. The one behavioural difference from
 
 ## Full Changelog
 
-https://github.com/repo-tech/tarvos-engine/compare/v1.0.0...v1.3.0
+https://github.com/repo-tech/tarvos-engine/compare/v1.0.0...v1.3.1
 
 # Tarvos Engine 1.0.0
 

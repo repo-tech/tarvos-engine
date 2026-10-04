@@ -1,11 +1,11 @@
 # Tarvos Compiler
 
-[![Release](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/repo-tech/tarvos-engine/releases)
-[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)]()
+[![Release](https://img.shields.io/badge/version-1.3.1-blue.svg)](https://github.com/repo-tech/tarvos-engine/releases)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey.svg)]()
 
 **Python to native Rust. No Rust installation required.**
 
-Tarvos Engine is the public distribution layer for Tarvos 1.0.0: a
+Tarvos Engine is the public distribution layer for Tarvos 1.3.1: a
 Python-to-native Rust compiler and CLI for statically analyzable, compute-heavy
 Python workloads. Point it at a `.py` file and get an optimized standalone
 native executable — no Python runtime on the target, no `rustc` on the build
@@ -29,7 +29,7 @@ Python, type-checks it, lowers it to an intermediate representation, optimizes
 that IR, and emits Rust that the compiler turns into machine code. On a
 compute-bound kernel the difference is not marginal:
 
-| | CPython 3.13.13 | Tarvos 1.0.0 |
+| | CPython 3.13.13 | Tarvos 1.3.1 |
 |---|---|---|
 | Median execution | 1713.14 ms | **13.40 ms** |
 | Minimum | 1445.00 ms | 11.54 ms |
@@ -167,6 +167,34 @@ third-party packages are outside the subset by design and are reported as such.
 `tarvos scan ./your-project` tells you where a project stands before you invest
 in a migration.
 
+### Names that change type
+
+Since 1.3.0 a variable may change type and still compile natively:
+
+```python
+x = 0
+x = "cecece"
+print(x)          # cecece
+```
+
+A name that genuinely changes type is emitted as a tagged runtime value so
+both assignments agree on one Rust type. Arithmetic, comparison, concatenation
+and truthiness on such a name follow Python's rules — `int + float` widens, `/`
+yields a float, dividing by zero raises `ZeroDivisionError`, `"a" + 1` raises
+the same `TypeError` CPython raises.
+
+Only names that actually change type are boxed. A program with fixed types keeps
+its plain `i64`/`f64`/`String` representation and never pays for the tagged-value
+runtime, which is emitted only when one is reachable.
+
+### Refused rather than silently wrong
+
+Anything outside the subset is named and the build stops. This is a deliberate
+choice: a tool that says "no" is more useful than one that compiles a subtly
+different program. In particular Tarvos will not hand your program to CPython
+behind your back. If you want CPython semantics for something outside the subset,
+run it with `tarvos run --python-fallback` and know that you asked for it.
+
 ## Install Tarvos
 
 ### Windows (graphical, recommended)
@@ -182,10 +210,10 @@ Set-ExecutionPolicy -Scope Process Bypass
 .\install.ps1
 ```
 
-### Linux and macOS
+### Linux
 
 ```bash
-curl --fail --location https://github.com/repo-tech/tarvos-engine/releases/download/v1.0.0/install.sh | bash
+curl --fail --location https://github.com/repo-tech/tarvos-engine/releases/download/v1.3.1/install.sh | bash
 exec "$SHELL" -l
 tarvos --version
 ```
@@ -246,6 +274,7 @@ Worked benchmark walkthrough: [SHOWCASE.md](SHOWCASE.md).
 
 | Document | What it covers |
 |---|---|
+| [LIMITATIONS.md](LIMITATIONS.md) | What Tarvos cannot do and why — start here if you are deciding whether to port |
 | [COMPATIBILITY.md](COMPATIBILITY.md) | Every supported feature, every partial one with its exact limit, and what is refused |
 | [ROADMAP.md](ROADMAP.md) | Where the compiler is going, and what is deliberately out of scope |
 | [BENCHMARKS.md](BENCHMARKS.md) | Benchmark method, the measured matrix, and how to read a result honestly |
@@ -277,6 +306,8 @@ to this repository and nothing else.
 
 | Version | What it was |
 |---|---|
+| `v1.3.1` | Maintenance release. Version synchronization across both repositories, two native-codegen fixes (float division zero-guard, `sum()` over a range), and this documentation pass. |
+| `v1.3.0` | First stable release with native dynamic typing: ordinary Python compiles instead of silently falling back to CPython. |
 | `v1.0.0` | First stable public release. Managed toolchain, measured performance, full documentation, and an honest account of the open exception-handling limitation. |
 | `v1.1.0-rc.2` | Early pre-release. |
 | `v1.1.0-rc.1` | Early pre-release. |
@@ -295,7 +326,7 @@ from your user `PATH`. The managed toolchain lives separately in
 
 ## Release contract
 
-Tarvos 1.0.0 is the first stable public release. Release
+Tarvos 1.3.1 is the first stable public release. Release
 automation runs from the compiler's build pipeline and publishes these assets
 here:
 
@@ -306,11 +337,22 @@ tarvos-windows-x86_64.exe
 tarvos-windows-x86_64.exe.sha256
 tarvos-linux-x86_64
 tarvos-linux-x86_64.sha256
-tarvos-macos-x86_64
-tarvos-macos-x86_64.sha256
 ```
 
 Every asset ships with a `.sha256` that the installers verify before writing
 anything to disk.
+
+**There is no macOS asset.** macOS was removed from the build and release
+matrices in 1.3.0 and is not coming back in this line. On macOS the launcher
+fails with an explicit unsupported-platform message naming `TARVOS_VERSION`
+rather than downloading something that will not run. Serving an x86_64 binary to
+Apple silicon would work only under Rosetta, which costs memory the user may not
+have and fails outright without it - promising it silently is worse than
+refusing.
+
+**Windows and Linux x86_64 only.** There is no 32-bit and no aarch64 build.
+Running a 32-bit binary on a 64-bit host would need WoW64 emulation, and an
+aarch64 artifact would have to be cross-compiled and tested on real ARM hardware
+before it could be published honestly.
 
 This repository intentionally does not contain the compiler source.
