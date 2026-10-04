@@ -146,7 +146,7 @@ def _scan_dependencies_via_ast(args: list[str]) -> set[str]:
         "hashlib", "hmac", "secrets", "zipfile", "tarfile", "gzip", "bz2", "lzma",
 
         # --- Date, Time & Internationalization ---
-        "time", "datetime", "calendar", "zoneinfo", "locale", gettext,
+        "time", "datetime", "calendar", "zoneinfo", "locale", "gettext",
 
         # --- Concurrent Programming & Threading ---
         "threading", "multiprocessing", "concurrent", "concurrent.futures", "queue",
