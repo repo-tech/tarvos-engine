@@ -3,10 +3,7 @@
 </p>
 
 <div align="center">
-<h1>
-  <img src="https://github.com/user-attachments/assets/0ed06e55-2cd3-46f5-ade8-539be53e1ba8" alt="tarvos" height="40" align="absmiddle">
-  Tarvos
-</h1>
+Tarvos 
 
 [![CI](https://github.com/repo-tech/Tarvos/actions/workflows/ci.yml/badge.svg)](https://github.com/repo-tech/Tarvos/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/badge/version-1.3.1-blue.svg)](https://github.com/repo-tech/Tarvos/releases)
