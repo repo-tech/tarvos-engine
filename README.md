@@ -3,7 +3,7 @@
 </p>
 
 <div align="center">
-<img alt="<img width="1220" height="864" alt="tarvos" src="https://github.com/user-attachments/assets/0ed06e55-2cd3-46f5-ade8-539be53e1ba8" />" width="700">
+<img width="14" height="10" alt="tarvos" src="https://github.com/user-attachments/assets/0ed06e55-2cd3-46f5-ade8-539be53e1ba8" />"
 
 ## Tarvos
 
