@@ -102,12 +102,12 @@ on a missing download.
 ## Upgrade
 
 ```powershell
-irm https://github.com/repo-tech/tarvos/releases/download/v1.3.1/install.ps1 | iex
+irm https://github.com/repo-tech/tarvos-engine/releases/download/v1.3.1/install.ps1 | iex
 ```
 
 ```bash
 # Linux
-curl -fsSL https://github.com/repo-tech/tarvos/releases/download/v1.3.1/install.sh | sh
+curl -fsSL https://github.com/repo-tech/tarvos-engine/releases/download/v1.3.1/install.sh | sh
 ```
 
 Or through the Python package, which now defaults to this release:
