@@ -11,7 +11,7 @@
 
 </div>
 
-## Tarvos
+## Tarvos ⚡
 
 Tarvos Compiler - engine is the public distribution layer for Tarvos 1.3.1: a
 Python-to-native Rust compiler and CLI for statically analyzable, compute-heavy
