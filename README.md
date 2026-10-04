@@ -210,11 +210,17 @@ Set-ExecutionPolicy -Scope Process Bypass
 .\install.ps1
 ```
 
+## Upgrade
+
+```powershell
+irm https://github.com/repo-tech/tarvos-engine/releases/download/v1.3.1/install.ps1 | iex
+tarvos --version
+```
+
 ### Linux
 
 ```bash
-curl --fail --location https://github.com/repo-tech/tarvos-engine/releases/download/v1.3.1/install.sh | bash
-exec "$SHELL" -l
+curl -fsSL https://github.com/repo-tech/tarvos-engine/releases/download/v1.3.1/install.sh | sh
 tarvos --version
 ```
 
