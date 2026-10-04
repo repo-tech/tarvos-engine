@@ -1,3 +1,5 @@
+<img width="1800" height="2350" alt="tarvos_benchmark_comparison" src="https://github.com/user-attachments/assets/26abac08-da2c-47ea-9bc6-429479371bb2" />
+<img width="1800" height="2850" alt="tarvos_benchmark_source_workloads_complete" src="https://github.com/user-attachments/assets/df97e5fe-b6c9-4167-899c-0da974a9880d" />
 # Tarvos Compiler
 
 [![Release](https://img.shields.io/badge/version-1.3.1-blue.svg)](https://github.com/repo-tech/tarvos-engine/releases)
