@@ -2,11 +2,17 @@
 <img width="1798" height="576" alt="logo" src="https://github.com/user-attachments/assets/39b79d21-da41-497b-b42a-2d2afdcba3cd" />
 </p>
 
+<div align="center">
+<img alt="<img width="1220" height="864" alt="tarvos" src="https://github.com/user-attachments/assets/0ed06e55-2cd3-46f5-ade8-539be53e1ba8" />" width="700">
+
 ## Tarvos
 
-[![Release](https://img.shields.io/badge/version-1.3.1-blue.svg)](https://github.com/repo-tech/tarvos-engine/releases)
-[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey.svg)]()
+[![CI](https://github.com/repo-tech/Tarvos/actions/workflows/ci.yml/badge.svg)](https://github.com/repo-tech/Tarvos/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/badge/version-1.3.1-blue.svg)](https://github.com/repo-tech/Tarvos/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)]()
 
+</div>
 **Python to native Rust. No Rust installation required.**
 
 Tarvos Engine is the public distribution layer for Tarvos 1.3.1: a
