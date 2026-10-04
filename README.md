@@ -1,4 +1,4 @@
-**Tarvos Compiler**
+## Tarvos Compiler
 
 [![Release](https://img.shields.io/badge/version-1.3.1-blue.svg)](https://github.com/repo-tech/tarvos-engine/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey.svg)]()
@@ -283,6 +283,14 @@ Worked benchmark walkthrough: [SHOWCASE.md](SHOWCASE.md).
 | [RELEASE_NOTES.md](RELEASE_NOTES.md) | What shipped in each release |
 | [installer/README.md](installer/README.md) | Windows setup executable details |
 
+## Benchmarks
+<p align="center">
+  <img width="850" alt="tarvos_benchmark_comparison" src="https://github.com/user-attachments/assets/26abac08-da2c-47ea-9bc6-429479371bb2" />
+</p>
+<p align="center">
+  <img width="850" alt="tarvos_benchmark_source_workloads_complete" src="https://github.com/user-attachments/assets/df97e5fe-b6c9-4167-899c-0da974a9880d" />
+</p>
+
 ## Credits
 
 Tarvos is built and maintained by **Repo-Tech**. The compiler is developed
@@ -355,11 +363,4 @@ Running a 32-bit binary on a 64-bit host would need WoW64 emulation, and an
 aarch64 artifact would have to be cross-compiled and tested on real ARM hardware
 before it could be published honestly.
 
-**Benchmarks**
-<p align="center">
-  <img width="850" alt="tarvos_benchmark_comparison" src="https://github.com/user-attachments/assets/26abac08-da2c-47ea-9bc6-429479371bb2" />
-</p>
-<p align="center">
-  <img width="850" alt="tarvos_benchmark_source_workloads_complete" src="https://github.com/user-attachments/assets/df97e5fe-b6c9-4167-899c-0da974a9880d" />
-</p>
 This repository intentionally does not contain the compiler source.
