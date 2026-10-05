@@ -228,7 +228,7 @@ tarvos --version
 ### Linux
 
 ```bash
-curl -fsSL https://github.com/repo-tech/tarvos-engine/releases/download/v1.3.1/install.sh | sh
+curl -fsSL https://github.com/repo-tech/tarvos-engine/releases/download/v1.3.1/install.sh | bash
 tarvos --version
 ```
 
