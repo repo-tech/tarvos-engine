@@ -6,7 +6,7 @@
   
 [![CI](https://github.com/repo-tech/tarvos-engine/actions/workflows/python-package.yml/badge.svg)](https://github.com/repo-tech/tarvos-engine/actions/workflows/python-package.yml)
 [![Release](https://img.shields.io/badge/version-1.3.1-blue.svg)](https://github.com/repo-tech/tarvos-engine/releases)
-[![License: GPL v3](https://img.shields.io/badge/License-GPL-yellow.svg)]([https://gnu.org](https://www.gnu.org/licenses/gpl-3.0.en.html))
+[![License: GPL-3.0](https://img.shields.io/badge/License-GPL-3.0-yellow.svg)](https://opensource.org/licenses/GPL-3.0)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)]()
 
 </div>
